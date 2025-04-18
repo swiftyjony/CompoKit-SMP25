@@ -8,16 +8,16 @@
 import SwiftUI
 
 public struct CoolTextField: View {
-    let titleLabel: String
-    let placeholder: String
+    let titleLabel: LocalizedStringResource
+    let placeholder: LocalizedStringResource
     @Binding var value: String
     let validation: ValidationType
     let focus: Bool
 
     @State private var error: String?
 
-    public init(titleLabel: String,
-                placeholder: String,
+    public init(titleLabel: LocalizedStringResource,
+                placeholder: LocalizedStringResource,
                 value: Binding<String>,
                 validation: ValidationType,
                 focus: Bool) {
@@ -34,7 +34,7 @@ public struct CoolTextField: View {
                 .font(.headline)
                 .padding(.leading)
             HStack(alignment: .top) {
-                TextField(placeholder, text: $value, axis: .vertical)
+                TextField("\(placeholder)", text: $value, axis: .vertical)
                 if !value.isEmpty && focus {
                     Button {
                         value = ""
