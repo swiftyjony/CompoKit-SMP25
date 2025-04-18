@@ -14,7 +14,7 @@ public enum ValidationType {
 }
 
 extension ValidationType {
-    public func validate(_ value: String) -> String? {
+    public func validate(_ value: String) -> LocalizedStringResource? {
         switch self {
         case .isNotEmpty:
             !value.isEmpty ? nil : " cannot be empty."

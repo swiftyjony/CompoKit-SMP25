@@ -14,7 +14,7 @@ public struct CoolTextField: View {
     let validation: ValidationType
     let focus: Bool
 
-    @State private var error: String?
+    @State private var error: LocalizedStringResource?
 
     public init(titleLabel: LocalizedStringResource,
                 placeholder: LocalizedStringResource,
