@@ -11,18 +11,21 @@ public struct CoolTextField: View {
     let titleLabel: String
     let placeholder: String
     @Binding var value: String
-    let validation: (String) -> String?
+    let validation: ValidationType
+    let focus: Bool
 
     @State private var error: String?
 
     public init(titleLabel: String,
                 placeholder: String,
                 value: Binding<String>,
-                validation: @escaping (String) -> String?) {
+                validation: ValidationType,
+                focus: Bool) {
         self.titleLabel = titleLabel
         self.placeholder = placeholder
         self._value = value
         self.validation = validation
+        self.focus = focus
     }
 
     public var body: some View {
@@ -32,7 +35,7 @@ public struct CoolTextField: View {
                 .padding(.leading)
             HStack(alignment: .top) {
                 TextField(placeholder, text: $value, axis: .vertical)
-                if !value.isEmpty {
+                if !value.isEmpty && focus {
                     Button {
                         value = ""
                     } label: {
@@ -62,7 +65,7 @@ public struct CoolTextField: View {
                 .opacity(error != nil ? 1 : 0)
         }
         .onChange(of: value) {
-            error = validation(value)
+            error = validation.validate(value)
         }
         .animation(.bouncy, value: error)
         .accessibilityElement(children: .combine)
@@ -72,7 +75,9 @@ public struct CoolTextField: View {
 
 #Preview {
     @Previewable @State var value = ""
-    CoolTextField(titleLabel: "Title of the score", placeholder: "Enter the title", value: $value) {
-        $0.isEmpty ? "cannot be empty" : nil
-    }
+    CoolTextField(titleLabel: "Title of the score",
+                  placeholder: "Enter the title",
+                  value: $value,
+                  validation: .isNotEmpty,
+                  focus: true)
 }
